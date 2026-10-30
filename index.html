@@ -2,11 +2,11 @@
 <html lang="ar" dir="rtl">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#10233f"><title>EL SAYAD ACADEMY | أكاديمية الصياد</title><link rel="stylesheet" href="style.css"></head>
 <body>
-<header class="site-header"><a class="brand" href="#top"><span>EL SAYAD</span> ACADEMY</a><div class="header-caption">أكاديمية الصياد التعليمية</div></header>
+<header class="site-header"><a class="brand" href="#top"><span>EL SAYAD</span> ACADEMY</a><div class="header-caption">أكاديمية الصياد التعليمية</div><button id="menu-toggle" class="menu-toggle" aria-label="فتح القائمة" type="button">☰</button><nav id="site-menu" class="site-menu" hidden><button id="menu-admin" type="button">دخول الإدارة</button></nav></header>
 <main class="container" id="top">
 <section class="hero"><div class="eyebrow">تعلم • افهم • طبّق</div><h1>كل المراحل وكل المواد<br><span>والفهم بالتجربة</span></h1><p>من أولى ابتدائي حتى تالتة ثانوي، مع حساب طالب مستقل ومحتوى تعليمي منظم.</p></section>
 <section class="card login-card" id="login-card"><h2>حساب الطالب</h2><p class="muted">أنشئ حسابًا ببريدك الإلكتروني أو سجّل الدخول. بيانات المرحلة والصف تُحفظ في ملفك.</p>
-<div class="auth-tabs"><button type="button" id="role-student" class="primary-button">طالب</button><button type="button" id="role-parent" class="secondary-button">ولي أمر</button></div><div class="auth-tabs"><button type="button" id="show-login" class="secondary-button">تسجيل الدخول</button><button type="button" id="show-signup" class="primary-button">إنشاء حساب طالب</button></div><p id="role-note" class="muted">ولي الأمر يسجل الدخول بحساب تم إنشاؤه واعتماده من الإدارة.</p>
+<div class="auth-tabs"><button type="button" id="role-student" class="primary-button">طالب</button><button type="button" id="role-parent" class="secondary-button">ولي أمر</button><button type="button" id="role-admin" class="secondary-button">إدارة</button></div><div class="auth-tabs"><button type="button" id="show-login" class="secondary-button">تسجيل الدخول</button><button type="button" id="show-signup" class="primary-button">إنشاء حساب طالب</button></div><p id="role-note" class="muted">ولي الأمر يسجل الدخول بحساب تم إنشاؤه واعتماده من الإدارة.</p>
 <form id="auth-form">
 <div id="name-wrap" hidden><label for="student-name">اسم الطالب</label><input id="student-name" autocomplete="name" placeholder="الاسم بالكامل"></div>
 <div id="phone-wrap" hidden><label for="phone">رقم الهاتف</label><input id="phone" type="tel" autocomplete="tel" placeholder="01xxxxxxxxx"></div>
@@ -17,13 +17,14 @@
 <div id="system-wrap" hidden><label for="school-system">النظام الثانوي</label><select id="school-system"><option value="general">الثانوية العامة</option><option value="baccalaureate">البكالوريا المصرية</option></select></div>
 <label for="grade">الصف الدراسي</label><select id="grade" disabled><option value="">اختر المرحلة أولًا</option></select>
 </div>
-<button class="primary-button" id="auth-submit" type="submit">تسجيل الدخول</button><p id="form-message" class="form-message" role="status"></p>
+<p id="signup-price" class="price-preview">اختر المرحلة والصف لعرض السعر.</p><button class="primary-button" id="auth-submit" type="submit">تسجيل الدخول</button><p id="form-message" class="form-message" role="status"></p>
 </form></section>
 <section id="parent-dashboard" hidden><div class="dashboard-heading"><div><div class="eyebrow dark">مساحة ولي الأمر</div><h2 id="parent-title">متابعة الأبناء</h2><p class="muted">بيانات الأبناء المرتبطين بحسابك</p></div><button id="parent-logout" class="secondary-button">تسجيل الخروج</button></div><section class="card"><h2>الأبناء المرتبطون</h2><div id="children-list" class="empty-state">جارٍ تحميل بيانات الأبناء…</div></section></section>
-<section id="student-dashboard" hidden><div class="dashboard-heading"><div><div class="eyebrow dark">مساحة الطالب</div><h2 id="student-title">ملفك الدراسي</h2><p id="student-meta" class="muted"></p></div><button id="logout" class="secondary-button">تسجيل الخروج</button></div>
+<section id="student-dashboard" hidden><div class="dashboard-heading"><div><div class="eyebrow dark">مساحة الطالب</div><h2 id="student-title">ملفك الدراسي</h2><p id="student-meta" class="muted"></p></div><button id="profile-toggle" class="profile-toggle" type="button" aria-label="الملف الشخصي">م</button></div><aside id="profile-drawer" class="profile-drawer" hidden><h2>بيانات الطالب</h2><p>الاسم: <b id="profile-name"></b></p><p>البريد الإلكتروني: <b id="profile-email"></b></p><p>رقم الهاتف: <b id="profile-phone"></b></p><p>كود الطالب: <b id="profile-code"></b></p><p>المرحلة والصف: <b id="profile-grade"></b></p><button id="logout" class="secondary-button">تسجيل الخروج</button></aside>
 <div class="notice"><strong>تنبيه:</strong> المواد والدروس لا تظهر كمحتوى معتمد إلا بعد رفعها ومراجعتها وربطها بمصدر المنهج الرسمي للسنة الدراسية.</div>
 <section class="card"><h2>ملفك الدراسي</h2><p id="profile-summary" class="muted"></p><p id="subscription-summary" class="notice">حالة الاشتراك: لم يتم تفعيل اشتراك لهذا الحساب بعد.</p></section>
 <section class="card"><h2>الاشتراك والدفع</h2><p>الدفع المتاح حاليًا قيد الإعداد والمراجعة اليدوية. لا تحول أي مبلغ من هذه النسخة حتى يتم تفعيل صفحة الدفع وإيصال الاستلام رسميًا.</p><p>للاستفسار عن الاشتراك أو الدفع اليدوي، تواصل مع الإدارة عبر واتساب أعمال.</p><p class="muted">سيتم إضافة وسيلة التواصل بعد اعتماد إعدادات الإدارة.</p></section>
 </section>
+<section id="admin-dashboard" class="card" hidden><div class="dashboard-heading"><h2>لوحة إدارة الأكاديمية</h2><button id="admin-logout" class="secondary-button">تسجيل الخروج</button></div><p>يتم عرض هذه اللوحة للحسابات التي تحمل دور admin في قاعدة البيانات فقط.</p><p>قبول الطلاب، إدارة الأسعار والاشتراكات، وربط أولياء الأمور تحتاج أدوات إدارية محمية في الخادم قبل تفعيلها.</p></section>
 </main><footer>© EL SAYAD ACADEMY — نسخة تطوير</footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><script src="app.js"></script></body></html>
