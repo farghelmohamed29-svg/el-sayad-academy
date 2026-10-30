@@ -12,7 +12,9 @@ function updatePrice(){const n=(grades[stage.value]||[]).indexOf(grade.value);co
 function updateSystem(){$("system-wrap").hidden=stage.value!=="secondary";updatePrice()}
 stage.addEventListener("change",()=>{fillGrades();updateSystem()});grade.addEventListener("change",updatePrice);
 $("show-login").addEventListener("click",()=>setMode("login"));$("show-signup").addEventListener("click",()=>setMode("signup"));
-$("role-student").addEventListener("click",()=>setRole("student"));$("role-parent").addEventListener("click",()=>{setRole("parent");setMode("login")});$("role-admin").addEventListener("click",()=>{setRole("admin");setMode("login")});
+$("choose-student").addEventListener("click",()=>{$("public-role-choice").hidden=true;$("login-card").hidden=true;$("public-role-choice").hidden=false;setRole("student");setMode("login")});
+$("choose-parent").addEventListener("click",()=>{$("public-role-choice").hidden=true;$("login-card").hidden=false;setRole("parent");setMode("login")});
+$("role-admin").addEventListener("click",()=>{setRole("admin");setMode("login")});
 $("profile-toggle").addEventListener("click",()=>{$("profile-drawer").hidden=!$("profile-drawer").hidden});
 $("menu-toggle").addEventListener("click",()=>{$("site-menu").hidden=!$("site-menu").hidden});
 $("menu-admin").addEventListener("click",()=>{$("site-menu").hidden=true;$("login-card").hidden=false;$("student-dashboard").hidden=true;$("parent-dashboard").hidden=true;setRole("admin");setMode("login")});
