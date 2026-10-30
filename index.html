@@ -1,1 +1,65 @@
-<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>EL SAYAD ACADEMY</title><link rel="stylesheet" href="style.css"></head><body><header><b>EL SAYAD ACADEMY</b><span>أكاديمية الصياد التعليمية</span></header><main><section class="hero"><small>منصتك التعليمية</small><h1>افهم الفيزياء<br><i>بثقة وتميّز</i></h1><p>دروس منظمة واختبارات ومتابعة للتقدم الدراسي.</p></section><section class="card"><h2>تسجيل الدخول</h2><p>واجهة أولية؛ التحقق الفعلي سيُضاف بعد إعداد قاعدة البيانات.</p><form id="login"><label>كود الطالب</label><input required placeholder="أدخل كود الطالب"><label>نوع الحساب</label><select><option>طالب</option><option>ولي أمر</option></select><label>رقم الهاتف للتحقق</label><input required inputmode="tel" placeholder="01xxxxxxxxx"><button>متابعة</button><p id="msg"></p></form></section><section class="card"><h2>الدفع عبر Vodafone Cash</h2><p>محفظة الأكاديمية</p><strong class="wallet">01032026738</strong><p>أرسل إثبات الدفع للإدارة. لا يُفعّل الاشتراك إلا بعد مراجعة الإدارة.</p></section></main><footer>© EL SAYAD ACADEMY</footer><script src="app.js"></script></body></html>
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10233f">
+  <title>EL SAYAD ACADEMY | أكاديمية الصياد</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="#"><span>EL SAYAD</span> ACADEMY</a>
+  <div class="header-caption">أكاديمية الصياد التعليمية</div>
+</header>
+<main class="container">
+  <section class="hero">
+    <div class="eyebrow">منصتك التعليمية</div>
+    <h1>افهم الفيزياء<br><span>بثقة وتميّز</span></h1>
+    <p>دروس منظمة، اختبارات، ومتابعة للتقدم الدراسي في مكان واحد.</p>
+  </section>
+
+  <section class="card login-card">
+    <h2>الدخول إلى حسابك</h2>
+    <p class="muted">استخدم كود الطالب ورقم الهاتف المسجل لدى الأكاديمية.</p>
+    <form id="login-form">
+      <label for="student-code">كود الطالب</label>
+      <input id="student-code" name="student_code" placeholder="أدخل كود الطالب" autocomplete="off" required>
+
+      <label for="account-type">نوع الحساب</label>
+      <select id="account-type" name="account_type">
+        <option value="student">طالب</option>
+        <option value="parent">ولي أمر</option>
+      </select>
+
+      <label for="phone">رقم الهاتف المسجل</label>
+      <input id="phone" name="phone" type="tel" inputmode="tel" placeholder="01xxxxxxxxx" autocomplete="tel" required>
+
+      <div class="locked-grid">
+        <div>
+          <label>المرحلة التعليمية</label>
+          <div class="locked-value"><span class="lock-icon">🔒</span> تحددها الإدارة</div>
+        </div>
+        <div>
+          <label>الصف الدراسي</label>
+          <div class="locked-value"><span class="lock-icon">🔒</span> تحدده الإدارة</div>
+        </div>
+      </div>
+      <p class="lock-note">المرحلة والصف مرتبطان بملف الطالب، ولا يمكن للطالب تغييرهما. التعديل من خلال الإدارة فقط.</p>
+
+      <button type="submit" class="primary-button">متابعة</button>
+      <p id="form-message" class="form-message" role="status" aria-live="polite"></p>
+    </form>
+  </section>
+
+  <section class="card payment-card">
+    <h2>الدفع عبر Vodafone Cash</h2>
+    <p class="muted">رقم محفظة الأكاديمية:</p>
+    <div class="wallet-number" dir="ltr">01032026738</div>
+    <p class="payment-note">بعد التحويل، أرسل إيصال الدفع للإدارة. لا يتم تفعيل الاشتراك إلا بعد مراجعة الإدارة والموافقة عليه.</p>
+  </section>
+</main>
+<footer>© EL SAYAD ACADEMY</footer>
+<script src="app.js"></script>
+</body>
+</html>
