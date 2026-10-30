@@ -1,0 +1,1 @@
+document.getElementById('login').addEventListener('submit',e=>{e.preventDefault();document.getElementById('msg').textContent='هذه واجهة تجريبية فقط؛ لم يتم تفعيل تسجيل الدخول بعد.';});
