@@ -1,24 +1,28 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#10233f"><title>EL SAYAD ACADEMY | أكاديمية الصياد</title><link rel="stylesheet" href="style.css">
-</head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#10233f"><title>EL SAYAD ACADEMY | أكاديمية الصياد</title><link rel="stylesheet" href="style.css"></head>
 <body>
 <header class="site-header"><a class="brand" href="#top"><span>EL SAYAD</span> ACADEMY</a><div class="header-caption">أكاديمية الصياد التعليمية</div></header>
 <main class="container" id="top">
-<section class="hero"><div class="eyebrow">تعلم • افهم • طبّق</div><h1>كل المراحل وكل المواد<br><span>والفهم بالتجربة</span></h1><p>مساحة تعليمية من أولى ابتدائي حتى تالتة ثانوي، تشمل الثانوية العامة والبكالوريا المصرية، مع دروس وامتحانات وملخصات عملية ثلاثية الأبعاد.</p></section>
-<section class="card login-card" id="login-card"><h2>ملف الطالب التجريبي</h2><p class="muted">اختر المرحلة والصف والنظام مرة واحدة في هذا العرض التجريبي. التثبيت الحقيقي على الحساب يتطلب تفعيل Supabase وسياساته.</p>
-<form id="login-form"><label for="student-name">اسم الطالب</label><input id="student-name" required placeholder="اسم الطالب"><label for="student-code">كود الطالب التجريبي</label><input id="student-code" required placeholder="كود الطالب"><label for="phone">رقم الهاتف المسجل</label><input id="phone" type="tel" required placeholder="رقم الهاتف">
-<label for="stage">المرحلة التعليمية</label><select id="stage" required><option value="">اختر المرحلة</option><option value="primary">ابتدائي</option><option value="preparatory">إعدادي</option><option value="secondary">ثانوي</option></select>
+<section class="hero"><div class="eyebrow">تعلم • افهم • طبّق</div><h1>كل المراحل وكل المواد<br><span>والفهم بالتجربة</span></h1><p>من أولى ابتدائي حتى تالتة ثانوي، مع حساب طالب مستقل ومحتوى تعليمي منظم.</p></section>
+<section class="card login-card" id="login-card"><h2>حساب الطالب</h2><p class="muted">أنشئ حسابًا ببريدك الإلكتروني أو سجّل الدخول. بيانات المرحلة والصف تُحفظ في ملفك.</p>
+<div class="auth-tabs"><button type="button" id="show-login" class="secondary-button">تسجيل الدخول</button><button type="button" id="show-signup" class="primary-button">حساب جديد</button></div>
+<form id="auth-form">
+<div id="name-wrap" hidden><label for="student-name">اسم الطالب</label><input id="student-name" autocomplete="name" placeholder="الاسم بالكامل"></div>
+<div id="phone-wrap" hidden><label for="phone">رقم الهاتف</label><input id="phone" type="tel" autocomplete="tel" placeholder="01xxxxxxxxx"></div>
+<label for="email">البريد الإلكتروني</label><input id="email" type="email" required autocomplete="email" placeholder="name@example.com">
+<label for="password">كلمة المرور</label><input id="password" type="password" required minlength="8" autocomplete="current-password" placeholder="8 أحرف على الأقل">
+<div id="academic-fields" hidden>
+<label for="stage">المرحلة التعليمية</label><select id="stage"><option value="">اختر المرحلة</option><option value="primary">ابتدائي</option><option value="preparatory">إعدادي</option><option value="secondary">ثانوي</option></select>
 <div id="system-wrap" hidden><label for="school-system">النظام الثانوي</label><select id="school-system"><option value="general">الثانوية العامة</option><option value="baccalaureate">البكالوريا المصرية</option></select></div>
-<div id="track-wrap" hidden><label for="track">المسار</label><select id="track"><option value="">اختر المسار إذا كان مقررًا لك</option><option>الطب وعلوم الحياة</option><option>الهندسة وعلوم الحاسب</option><option>الأعمال</option><option>الآداب والفنون</option></select><p class="muted small">خيارات توضيحية تحتاج مراجعة القرار الوزاري الساري قبل اعتمادها.</p></div>
-<label for="grade">الصف الدراسي</label><select id="grade" required disabled><option value="">اختر المرحلة أولًا</option></select><p class="lock-note">بعد التسجيل الحقيقي تُحفظ المرحلة والصف في ملف الحساب، ولا يعدلهما إلا المسؤول عبر إجراء إداري موثق.</p><button class="primary-button" type="submit">إنشاء الملف التجريبي والدخول</button><p id="form-message" class="form-message" role="status"></p></form></section>
-<section id="student-dashboard" hidden><div class="dashboard-heading"><div><div class="eyebrow dark">مساحة الطالب</div><h2 id="student-title">ملفك الدراسي</h2><p id="student-meta" class="muted"></p></div><button id="logout" class="secondary-button">خروج من العرض</button></div>
-<div class="notice"><strong>مصدر المناهج:</strong> لا تُعرض أي مادة على أنها معتمدة وزاريًا إلا بعد ربطها بمصدر رسمي محدد للسنة الدراسية والصف والنظام ومراجعتها. المحتوى الحالي هيكل توضيحي.</div>
-<section class="card"><div class="section-title"><h2>موادك الدراسية</h2><span class="tag">مواد نموذجية — للمراجعة</span></div><div id="subjects" class="subject-grid"></div><p class="muted small">تختلف المواد والتوزيعات حسب الصف والسنة والنظام؛ لا تعتمد هذه القائمة بديلًا عن جدول الوزارة.</p><a class="text-link" href="https://moe.gov.eg/" target="_blank" rel="noopener">وزارة التربية والتعليم المصرية</a></section>
-<section class="card"><div class="section-title"><h2>المنهج والدروس</h2><span class="tag">نموذج عرض</span></div><div id="lesson-list" class="lesson-grid"></div><div id="lesson-detail" class="lesson-detail" hidden></div></section>
-<div class="content-grid"><section class="card"><h2>الامتحانات</h2><div id="exam-list" class="empty-state">اختر درسًا لعرض نموذج اختبار قصير.</div></section><section class="card"><h2>التقدم والنتائج</h2><div id="progress" class="empty-state">ستظهر نتائج الطالب بعد ربط نظام الاختبارات وحفظ المحاولات في قاعدة البيانات.</div></section></div>
-<section class="card lab-card"><div class="section-title"><div><div class="eyebrow dark">مختبر تفاعلي</div><h2>ملخص عملي ثلاثي الأبعاد</h2></div><span class="tag">مجسم توضيحي</span></div><p id="lab-caption" class="muted">اختر درسًا عمليًا لعرض النموذج المرتبط به. المجسم الحالي مكعب تفاعلي عام وليس تمثيلًا علميًا لدرس محدد.</p><div class="lab-layout"><div class="scene" id="scene" aria-label="مجسم ثلاثي الأبعاد"><div class="cube"><i class="face front">3D</i><i class="face back">تطبيق</i><i class="face right">فهم</i><i class="face left">شرح</i><i class="face top">ملخص</i><i class="face bottom">تجربة</i></div></div><div class="lab-controls"><button id="rotate" class="secondary-button">إيقاف الحركة</button><label for="zoom">تكبير المجسم</label><input id="zoom" type="range" min="70" max="140" value="100"><p class="small muted">عند إضافة الدروس، يرفع المدرس نموذجًا أو مشهدًا ثلاثي الأبعاد يطابق التجربة العملية وشرحها.</p></div></div></section>
+<label for="grade">الصف الدراسي</label><select id="grade" disabled><option value="">اختر المرحلة أولًا</option></select>
+</div>
+<button class="primary-button" id="auth-submit" type="submit">تسجيل الدخول</button><p id="form-message" class="form-message" role="status"></p>
+</form></section>
+<section id="student-dashboard" hidden><div class="dashboard-heading"><div><div class="eyebrow dark">مساحة الطالب</div><h2 id="student-title">ملفك الدراسي</h2><p id="student-meta" class="muted"></p></div><button id="logout" class="secondary-button">تسجيل الخروج</button></div>
+<div class="notice"><strong>تنبيه:</strong> المواد والدروس لا تظهر كمحتوى معتمد إلا بعد رفعها ومراجعتها وربطها بمصدر المنهج الرسمي للسنة الدراسية.</div>
+<section class="card"><h2>ملفك الدراسي</h2><p id="profile-summary" class="muted"></p><p id="subscription-summary" class="notice">حالة الاشتراك: لم يتم تفعيل اشتراك لهذا الحساب بعد.</p></section>
+<section class="card"><h2>الاشتراك والدفع</h2><p>الدفع المتاح حاليًا قيد الإعداد والمراجعة اليدوية. لا تحول أي مبلغ من هذه النسخة حتى يتم تفعيل صفحة الدفع وإيصال الاستلام رسميًا.</p><p class="muted">رقم فودافون كاش / واتساب أعمال المسجل للمشروع: <b dir="ltr">01032026738</b></p></section>
 </section>
-<section class="card payment-card"><h2>الاشتراك والدفع</h2><p class="muted">وسيلة الدفع اليدوية المسجلة في إعدادات المشروع التجريبية:</p><div class="wallet-number" dir="ltr">01032026738</div><p class="payment-note">لا ترسل أي مبلغ اعتمادًا على هذه الصفحة التجريبية. تفعيل الدفع ورفع الإيصال ومراجعته لم يتم ربطه بعد.</p></section>
-</main><footer>© EL SAYAD ACADEMY — نسخة تطوير تجريبية</footer><script src="app.js"></script></body></html>
+</main><footer>© EL SAYAD ACADEMY — نسخة تطوير</footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><script src="app.js"></script></body></html>
