@@ -1,16 +1,13 @@
-// نسخة واجهة فقط: المصادقة والتحقق من الاشتراك غير مفعّلين في هذه الحزمة.
-const form = document.getElementById('login-form');
-form.addEventListener('submit', function (event) {
-  event.preventDefault();
-  const code = document.getElementById('student-code').value.trim();
-  const phone = document.getElementById('phone').value.trim();
-  const message = document.getElementById('form-message');
-
-  if (!code || !phone) {
-    message.textContent = 'من فضلك أكمل كود الطالب ورقم الهاتف.';
-    return;
-  }
-
-  message.textContent =
-    'هذه نسخة واجهة تجريبية. سيتم تفعيل التحقق الآمن وربط المرحلة والصف بملف الطالب بعد إعداد قاعدة البيانات.';
-});
+const gradesByStage={primary:["الأول الابتدائي","الثاني الابتدائي","الثالث الابتدائي","الرابع الابتدائي","الخامس الابتدائي","السادس الابتدائي"],preparatory:["الأول الإعدادي","الثاني الإعدادي","الثالث الإعدادي"],secondary:["الأول الثانوي","الثاني الثانوي","الثالث الثانوي"]};
+const sampleSubjects={primary:["اللغة العربية","اللغة الإنجليزية","الرياضيات","العلوم","الدراسات الاجتماعية","التربية الدينية","تكنولوجيا المعلومات"],preparatory:["اللغة العربية","اللغة الإنجليزية","الرياضيات","العلوم","الدراسات الاجتماعية","التربية الدينية","تكنولوجيا المعلومات"],secondary:["اللغة العربية","اللغة الأجنبية الأولى","الرياضيات","العلوم والمواد التخصصية","التاريخ","التربية الدينية","مواد التخصص حسب النظام"]};
+const sampleLessons=[{title:"مقدمة الدرس",kind:"شرح",desc:"مكان لشرح الدرس وعرض أهدافه ومفاهيمه الأساسية."},{title:"التطبيق العملي",kind:"عملي",desc:"مكان لخطوات النشاط العملي وصوره واحتياطات السلامة."},{title:"ملخص الدرس",kind:"مراجعة",desc:"نقاط المراجعة والأسئلة الأساسية قبل الاختبار."}];
+const $=id=>document.getElementById(id),form=$("login-form"),stage=$("stage"),grade=$("grade"),system=$("school-system"),track=$("track"),STORE="elSayadAcademyDemoProfileV3";
+function fillGrades(){grade.replaceChildren(new Option(stage.value?"اختر الصف":"اختر المرحلة أولًا",""));(gradesByStage[stage.value]||[]).forEach((label,i)=>grade.add(new Option(label,"g"+(i+1))));grade.disabled=!stage.value;}
+function updateSystem(){const sec=stage.value==="secondary";$("system-wrap").hidden=!sec;$("track-wrap").hidden=!(sec&&system.value==="baccalaureate");track.required=sec&&system.value==="baccalaureate";}
+stage.addEventListener("change",()=>{fillGrades();updateSystem()});system.addEventListener("change",updateSystem);
+function selectedGrade(){return gradesByStage[stage.value]?.[Number(grade.value.slice(1))-1]||""}
+function showDashboard(p){$("login-card").hidden=true;$("student-dashboard").hidden=false;const stageName={primary:"ابتدائي",preparatory:"إعدادي",secondary:"ثانوي"}[p.stage];$("student-title").textContent=`أهلًا ${p.name} في أكاديمية الصياد`;$('student-meta').textContent=`${stageName} · ${p.gradeLabel} · ${p.systemLabel||""} ${p.track||""}`;
+const host=$("subjects");host.replaceChildren();(sampleSubjects[p.stage]||[]).forEach((name,i)=>{const card=document.createElement("button");card.type="button";card.className="subject-card subject-button";card.innerHTML=`<span class="subject-number">${String(i+1).padStart(2,"0")}</span><h3></h3><p>الوحدات والدروس والشرح والاختبارات</p><span class="tag">محتوى تجريبي</span>`;card.querySelector("h3").textContent=name;card.addEventListener("click",()=>renderLessons(name));host.append(card)});renderLessons(sampleSubjects[p.stage]?.[0]||"المادة");}
+function renderLessons(subject){$("lesson-list").replaceChildren();sampleLessons.forEach((lesson,i)=>{const b=document.createElement("button");b.className="lesson-item";b.innerHTML=`<b>${i+1}. ${lesson.title}</b><span>${lesson.kind}</span>`;b.addEventListener("click",()=>{$("lesson-detail").hidden=false;$ ("lesson-detail").textContent=`${subject} — ${lesson.title}: ${lesson.desc}`;$("lab-caption").textContent=lesson.kind==="عملي"?`ملخص 3D لهذا الدرس: سيتم ربط المجسم العلمي الخاص بـ ${subject} بعد إضافة مادة الدرس ومراجعته.`:"هذا الدرس لا يحتوي حاليًا على مجسم علمي مخصص. أضف محتوى الدرس أولًا.";$("exam-list").textContent=`نموذج اختبار ${subject}: سيتم توليد الأسئلة من محتوى الدرس بعد إدخاله ومراجعته.`});$("lesson-list").append(b)});}
+form.addEventListener("submit",e=>{e.preventDefault();const p={name:$("student-name").value.trim(),code:$("student-code").value.trim(),phone:$("phone").value.trim(),stage:stage.value,grade:grade.value,gradeLabel:selectedGrade(),systemLabel:stage.value==="secondary"?(system.value==="baccalaureate"?"البكالوريا المصرية":"الثانوية العامة"):"",track:track.value||""};if(!p.name||!p.code||!p.phone||!p.stage||!p.grade||(track.required&&!p.track)){$("form-message").textContent="أكمل البيانات المطلوبة.";return}let old=null;try{old=JSON.parse(localStorage.getItem(STORE)||"null")}catch{}if(old){if(old.code!==p.code){$("form-message").textContent="هذا العرض التجريبي محفوظ لملف سابق على هذا المتصفح. لا تستخدمه لحساب حقيقي.";return}showDashboard(old);return}localStorage.setItem(STORE,JSON.stringify(p));showDashboard(p)});
+$("logout").addEventListener("click",()=>{$("student-dashboard").hidden=true;$ ("login-card").hidden=false});let rotating=true;$("rotate").addEventListener("click",()=>{rotating=!rotating;$("scene").classList.toggle("paused",!rotating);$("rotate").textContent=rotating?"إيقاف الحركة":"تشغيل الحركة"});$("zoom").addEventListener("input",e=>document.documentElement.style.setProperty("--cube-scale",e.target.value/100));fillGrades();updateSystem();
