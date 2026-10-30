@@ -4,7 +4,7 @@ const prices={primary:[50,70,90,110,130,150],preparatory:[170,190,210],secondary
 const stage=$("stage"),grade=$("grade"),system=$("school-system"),form=$("auth-form");
 let client=null,mode="login",role="student";
 function msg(t){$("form-message").textContent=t}
-function setRole(r){role=r;$("role-student").className=r==="student"?"primary-button":"secondary-button";$("role-parent").className=r==="parent"?"primary-button":"secondary-button";$("role-admin").className=r==="admin"?"primary-button":"secondary-button";$("show-signup").hidden=r!=="student";$("role-note").textContent=r==="parent"?"حساب ولي الأمر يتم إنشاؤه أو ربطه بواسطة الإدارة.":r==="admin"?"دخول الإدارة بالبريد وكلمة المرور المعتمدين؛ الصلاحية تُحدد من قاعدة البيانات.":"إنشاء الحساب متاح للطلاب.";setMode(mode)}
+function setRole(r){role=r;$("show-signup").hidden=r!=="student";$("role-note").textContent=r==="parent"?"حساب ولي الأمر يتم إنشاؤه أو ربطه بواسطة الإدارة.":r==="admin"?"دخول الإدارة بالبريد وكلمة المرور المعتمدين؛ الصلاحية تُحدد من قاعدة البيانات.":"إنشاء الحساب متاح للطلاب.";setMode(mode)}
 function setMode(m){mode=m;const signup=m==="signup"&&role==="student";$("name-wrap").hidden=!signup;$("phone-wrap").hidden=!signup;$("academic-fields").hidden=!signup;$("student-name").required=signup;$("phone").required=signup;stage.required=signup;grade.required=signup;$("auth-submit").textContent=signup?"إنشاء الحساب":"تسجيل الدخول";$("password").autocomplete=signup?"new-password":"current-password";msg("")}
 function stageLabel(v){return {primary:"ابتدائي",preparatory:"إعدادي",secondary:"ثانوي"}[v]||""}
 function fillGrades(){grade.replaceChildren(new Option(stage.value?"اختر الصف":"اختر المرحلة أولًا",""));(grades[stage.value]||[]).forEach(g=>grade.add(new Option(g,g)));grade.disabled=!stage.value;updatePrice()}
@@ -12,9 +12,8 @@ function updatePrice(){const n=(grades[stage.value]||[]).indexOf(grade.value);co
 function updateSystem(){$("system-wrap").hidden=stage.value!=="secondary";updatePrice()}
 stage.addEventListener("change",()=>{fillGrades();updateSystem()});grade.addEventListener("change",updatePrice);
 $("show-login").addEventListener("click",()=>setMode("login"));$("show-signup").addEventListener("click",()=>setMode("signup"));
-$("choose-student").addEventListener("click",()=>{$("public-role-choice").hidden=true;$("login-card").hidden=true;$("public-role-choice").hidden=false;setRole("student");setMode("login")});
+$("choose-student").addEventListener("click",()=>{$("public-role-choice").hidden=true;$("login-card").hidden=false;setRole("student");setMode("login")});
 $("choose-parent").addEventListener("click",()=>{$("public-role-choice").hidden=true;$("login-card").hidden=false;setRole("parent");setMode("login")});
-$("role-admin").addEventListener("click",()=>{setRole("admin");setMode("login")});
 $("profile-toggle").addEventListener("click",()=>{$("profile-drawer").hidden=!$("profile-drawer").hidden});
 $("menu-toggle").addEventListener("click",()=>{$("site-menu").hidden=!$("site-menu").hidden});
 $("menu-admin").addEventListener("click",()=>{$("site-menu").hidden=true;$("login-card").hidden=false;$("student-dashboard").hidden=true;$("parent-dashboard").hidden=true;setRole("admin");setMode("login")});
