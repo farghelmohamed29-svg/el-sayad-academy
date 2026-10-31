@@ -238,11 +238,8 @@ begin
   return jsonb_build_object('message','تم ربط الطالب بنجاح');
 end $$;
 
-create or replace function public.admin_list_recent_students()
-returns table(student_id uuid,full_name text,phone text,student_code text,stage text,grade text,created_at timestamptz)
-language sql security definer set search_path=public
-as $$ select p.id,p.full_name,p.phone,p.student_code,p.stage,p.grade,p.created_at from public.profiles p
-where public.is_academy_admin() and p.role='student' order by p.created_at desc limit 100 $$;
+-- Existing admin_list_recent_students() already has the required seven-column return type; keep it unchanged.
+
 
 -- RLS policies
 alter table public.profiles enable row level security;
