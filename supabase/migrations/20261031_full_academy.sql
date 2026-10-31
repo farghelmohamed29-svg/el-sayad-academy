@@ -156,9 +156,9 @@ create table if not exists public.academic_weekly_reports (
 create or replace function public.is_academy_admin()
 returns boolean language sql stable security definer set search_path=public
 as $$ select exists(select 1 from public.profiles where id=auth.uid() and role='admin') $$;
-create or replace function public.is_parent_of(p_student uuid)
+create or replace function public.is_parent_of(target_student uuid)
 returns boolean language sql stable security definer set search_path=public
-as $$ select exists(select 1 from public.parent_links where parent_id=auth.uid() and student_id=p_student) $$;
+as $ select exists(select 1 from public.parent_links where parent_id=auth.uid() and student_id=target_student) $;
 create or replace function public.has_active_academy_subscription(p_student uuid)
 returns boolean language sql stable security definer set search_path=public
 as $$ select exists(select 1 from public.academic_subscriptions where student_id=p_student and status='active' and ends_at>now()) $$;
