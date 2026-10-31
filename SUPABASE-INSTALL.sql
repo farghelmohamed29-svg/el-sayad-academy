@@ -226,7 +226,7 @@ begin
 end $$;
 
 create or replace function public.link_parent_with_student_code(p_code text)
-returns text language plpgsql security definer set search_path=public
+returns jsonb language plpgsql security definer set search_path=public
 as $$
 declare sid uuid;
 begin
@@ -235,7 +235,7 @@ begin
   select id into sid from public.profiles where student_code=upper(trim(p_code)) and role='student';
   if sid is null then raise exception 'كود الطالب غير صحيح'; end if;
   insert into public.parent_links(parent_id,student_id) values(auth.uid(),sid) on conflict do nothing;
-  return 'تم ربط الطالب بنجاح';
+  return jsonb_build_object('message','تم ربط الطالب بنجاح');
 end $$;
 
 create or replace function public.admin_list_recent_students()
@@ -388,7 +388,7 @@ grant execute on function public.admin_issue_student_signup_code(uuid) to authen
 
 -- Parents may only link a student after signing in with a parent account.
 create or replace function public.link_parent_with_student_code(p_code text)
-returns text language plpgsql security definer set search_path=public
+returns jsonb language plpgsql security definer set search_path=public
 as $$
 declare sid uuid;
 begin
@@ -399,7 +399,7 @@ begin
  select id into sid from public.profiles where student_code=upper(trim(p_code)) and role='student' and phone_verified;
  if sid is null then raise exception 'كود الطالب غير صحيح أو لم يتم تفعيله'; end if;
  insert into public.parent_links(parent_id,student_id) values(auth.uid(),sid) on conflict do nothing;
- return 'تم ربط الطالب بنجاح';
+ return jsonb_build_object('message','تم ربط الطالب بنجاح');
 end $$;
 grant execute on function public.link_parent_with_student_code(text) to authenticated;
 
