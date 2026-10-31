@@ -159,9 +159,9 @@ as $$ select exists(select 1 from public.profiles where id=auth.uid() and role='
 create or replace function public.is_parent_of(target_student uuid)
 returns boolean language sql stable security definer set search_path=public
 as $$ select exists(select 1 from public.parent_links where parent_id=auth.uid() and student_id=target_student) $$;
-create or replace function public.has_active_academy_subscription(p_student uuid)
+create or replace function public.has_active_academy_subscription(p_student_id uuid)
 returns boolean language sql stable security definer set search_path=public
-as $$ select exists(select 1 from public.academic_subscriptions where student_id=p_student and status='active' and ends_at>now()) $$;
+as $$ select exists(select 1 from public.academic_subscriptions where student_id=p_student_id and status='active' and ends_at>now()) $$;
 
 -- Safe profile creation. Client metadata can select student/parent, never admin.
 create or replace function public.el_sayad_create_profile()
