@@ -464,7 +464,17 @@ declare total_count integer; correct_count integer; new_id uuid;
 begin
  if auth.uid() is null then raise exception 'سجل الدخول أولًا'; end if;
  if not public.has_active_academy_subscription(auth.uid()) then raise exception 'الاشتراك غير مفعل'; end if;
- if not exists(select 1 from public.academic_quizzes where id=p_quiz_id and is_published) then raise exception 'الامتحان غير متاح'; end if;
+ if not exists(
+   select 1 from public.academic_quizzes q
+   join public.academic_lessons l on l.id=q.lesson_id
+   join public.academic_units u on u.id=l.unit_id
+   join public.academic_subjects s on s.id=u.subject_id
+   join public.profiles p on p.id=auth.uid()
+   where q.id=p_quiz_id and q.is_published
+     and p.role='student' and p.phone_verified
+     and s.stage=p.stage and s.grade_code=p.grade
+     and s.verification_status='verified'
+ ) then raise exception 'الامتحان غير متاح لهذا الحساب أو الصف'; end if;
  select count(*) into total_count from public.academic_questions where quiz_id=p_quiz_id;
  if total_count=0 then raise exception 'لا توجد أسئلة في الامتحان'; end if;
  select count(*) into correct_count
