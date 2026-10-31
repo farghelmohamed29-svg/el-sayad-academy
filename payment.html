@@ -1,1 +1,63 @@
-<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#10233f"><title>الدفع وتأكيد الكود | أكاديمية الصياد</title><link rel="stylesheet" href="style.css?v=20261031"></head><body><header class="site-header"><a class="brand" href="index.html"><span>EL SAYAD</span> ACADEMY</a><div class="header-caption">الدفع وتأكيد كود الطالب</div></header><main class="container"><section class="card"><h1>الدفع وتأكيد الكود</h1><p>حوّل قيمة الاشتراك بعد مراجعة السعر في حسابك إلى محفظة الأكاديمية:</p><div class="payment-number" dir="ltr">01032026738</div><p>بعد التحويل، أرسل إيصال الدفع وبيانات الطالب للإدارة عبر واتساب. ستراجع الإدارة الطلب ثم تصدر كود التأكيد.</p><a class="primary-button" href="https://wa.me/201032026738" target="_blank" rel="noopener">التواصل مع الإدارة عبر واتساب</a><hr><h2>استكمال تأكيد حساب الطالب</h2><p>بعد استلام الكود من الإدارة، افتح صفحة الطالب وسجّل الدخول. يظهر كود الطالب/التفعيل وفق حالة اعتماد الحساب.</p><a class="primary-button" href="student.html">صفحة الطالب</a><a class="secondary-button" style="display:block;text-align:center;margin-top:12px" href="index.html">العودة للرئيسية</a></section></main><footer>© EL SAYAD ACADEMY</footer></body></html>
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#10233f"><title>الدفع وتأكيد الكود | أكاديمية الصياد</title>
+<link rel="stylesheet" href="style.css?v=20261031">
+</head>
+<body>
+<header class="site-header"><a class="brand" href="index.html"><span>EL SAYAD</span> ACADEMY</a><div class="header-caption">الدفع وتأكيد كود الطالب</div></header>
+<main class="container">
+<section class="card">
+<h1>الدفع وتأكيد الكود</h1>
+<p>حوّل قيمة الاشتراك بعد مراجعة السعر في حسابك إلى محفظة الأكاديمية:</p>
+<div class="payment-number" dir="ltr">01032026738</div>
+<p>بعد التحويل، أرسل إيصال الدفع وبيانات الطالب للإدارة عبر واتساب. بعد مراجعة الدفع ستصدر الإدارة كود التأكيد وترسله لك.</p>
+<a class="primary-button" href="https://wa.me/201032026738" target="_blank" rel="noopener">التواصل مع الإدارة عبر واتساب</a>
+<hr>
+<h2>أدخل كود التأكيد</h2>
+<p class="muted">سجّل الدخول بحساب الطالب الذي أنشأته أولًا، ثم اكتب الكود المكوّن من 6 أرقام الذي أرسلته الإدارة.</p>
+<label for="activation-code">كود التأكيد</label>
+<input id="activation-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="••••••">
+<button id="verify-code" class="primary-button" type="button">تأكيد الكود وتفعيل الحساب</button>
+<p id="code-message" class="form-message" role="status" aria-live="polite"></p>
+<div id="student-code-result" class="card" hidden>
+<h3>تم تفعيل الحساب بنجاح</h3>
+<p>كود الطالب الخاص بك:</p><strong id="student-code" dir="ltr"></strong>
+<p class="muted">احتفظ بالكود لربط حساب ولي الأمر.</p>
+<a class="primary-button" href="student.html">الدخول إلى صفحة الطالب</a>
+</div>
+<p id="session-help" class="muted"></p>
+<a class="secondary-button" style="display:block;text-align:center;margin-top:12px" href="student.html">فتح صفحة الطالب / تسجيل الدخول</a>
+<a class="secondary-button" style="display:block;text-align:center;margin-top:12px" href="index.html">العودة للرئيسية</a>
+</section>
+</main>
+<footer>© EL SAYAD ACADEMY</footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js?v=20261031"></script>
+<script>
+(async function(){
+ const $=id=>document.getElementById(id), button=$("verify-code"), message=$("code-message");
+ if(!window.supabase||!window.SUPABASE_CONFIG?.url||!window.SUPABASE_CONFIG?.publishableKey){message.textContent="إعداد الاتصال غير مكتمل؛ تواصل مع الإدارة.";button.disabled=true;return;}
+ const client=window.supabase.createClient(window.SUPABASE_CONFIG.url,window.SUPABASE_CONFIG.publishableKey);
+ const session=await client.auth.getSession();
+ if(!session.data.session){$("session-help").textContent="لا يوجد حساب طالب مسجّل الدخول على هذا الجهاز. افتح صفحة الطالب وسجّل الدخول أولًا، ثم ارجع لهذه الصفحة.";}
+ button.addEventListener("click",async()=>{
+  const code=$("activation-code").value.trim();
+  if(!/^\\d{6}$/.test(code)){message.textContent="اكتب كودًا صحيحًا مكوّنًا من 6 أرقام.";return;}
+  button.disabled=true;message.textContent="جارٍ التحقق من الكود…";
+  try{
+   const current=await client.auth.getSession();
+   if(!current.data.session)throw new Error("سجّل الدخول بحساب الطالب أولًا من صفحة الطالب.");
+   const result=await client.rpc("verify_student_signup_code",{p_code:code});
+   if(result.error)throw result.error;
+   $("student-code").textContent=result.data?.student_code||"تم التفعيل";
+   $("student-code-result").hidden=false;
+   message.textContent="تم تأكيد الكود وتفعيل الحساب.";
+   $("activation-code").disabled=true;
+  }catch(error){message.textContent=error.message||"تعذر تأكيد الكود.";}
+  finally{button.disabled=false;}
+ });
+})();
+</script>
+</body></html>
