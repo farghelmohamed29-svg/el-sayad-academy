@@ -44,7 +44,7 @@
  if(!session.data.session){$("session-help").textContent="لا يوجد حساب طالب مسجّل الدخول على هذا الجهاز. افتح صفحة الطالب وسجّل الدخول أولًا، ثم ارجع لهذه الصفحة.";}
  button.addEventListener("click",async()=>{
   const code=$("activation-code").value.trim();
-  if(!/^\\d{6}$/.test(code)){message.textContent="اكتب كودًا صحيحًا مكوّنًا من 6 أرقام.";return;}
+  if(!/^\d{6}$/.test(code)){message.textContent="اكتب كودًا صحيحًا مكوّنًا من 6 أرقام.";return;}
   button.disabled=true;message.textContent="جارٍ التحقق من الكود…";
   try{
    const current=await client.auth.getSession();
