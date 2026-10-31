@@ -16,7 +16,7 @@ function updatePrice(){const n=(grades[stage.value]||[]).indexOf(grade.value),pr
 function updateSystem(){$("system-wrap").hidden=stage.value!=="secondary";updatePrice()}
 stage.addEventListener("change",()=>{fillGrades();updateSystem()});grade.addEventListener("change",updatePrice);
 $("show-login").addEventListener("click",()=>setMode("login"));$("show-signup").addEventListener("click",()=>setMode("signup"));
-$("choose-student").addEventListener("click",()=>{location.href="student.html"});
+$("choose-student").addEventListener("click",()=>{$("public-role-choice").hidden=true;$("login-card").hidden=false;setRole("student");setMode("login")});
 $("choose-parent").addEventListener("click",()=>{$("public-role-choice").hidden=true;$("login-card").hidden=false;setRole("parent");setMode("login")});
 $("profile-toggle").addEventListener("click",()=>{$("profile-drawer").hidden=!$("profile-drawer").hidden});
 $("menu-toggle").addEventListener("click",()=>{$("site-menu").hidden=!$("site-menu").hidden});
